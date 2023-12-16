@@ -1,13 +1,26 @@
 import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import { useFormikContext } from 'formik';
 
 import AppButton from '../AppButton';
 
-function SubmitButton({ title }) {
+
+function SubmitButton({ title, InfoComponent }) {
     const { handleSubmit } = useFormikContext();
     return (
-        <AppButton title={title} onPress={handleSubmit} style={{ marginTop: 30 }} i />
+        <View style={styles.container}>
+            {InfoComponent}
+            <AppButton title={title} onPress={handleSubmit} />
+        </View>
+
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: 30,
+    }
+})
 
 export default SubmitButton;

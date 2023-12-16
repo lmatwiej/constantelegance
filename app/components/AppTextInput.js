@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         width: "100%",
-        ...defaultStyles.textInput
+        ...defaultStyles.text
     }
 })
 

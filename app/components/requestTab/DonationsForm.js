@@ -4,9 +4,9 @@ import * as Yup from 'yup';
 
 import { AppForm, SubmitButton, FormLabel } from '../forms';
 import AddressPicker from '../forms/AddressPicker';
-import FormDateTimePicker from '../forms/FormDateTimePicker';
-import AlterationsDetails from '../forms/AlterationsDetails';
 import PackagePicker from '../forms/PackagePicker';
+import FormDateTimePicker from '../forms/FormDateTimePicker';
+import DonationsDetails from '../forms/DonationsDetails';
 
 const validationSchema = Yup.object().shape({
     location: Yup.string().required().label("Location"),
@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
 const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 0
 const initialFormValues = { location: 'Home', date: new Date(), time: new Date(), package: '' }
 
-function AlterationsForm(props) {
+function DonationsForm(props) {
     return (
         <KeyboardAvoidingView
             behavior="padding" keyboardVerticalOffset={keyboardVerticalOffset}
@@ -28,17 +28,16 @@ function AlterationsForm(props) {
                     onSubmit={values => console.log(values)}
                     validationSchema={validationSchema}
                 >
-                    <FormLabel label="Clothing Pickup Location" />
-                    <AddressPicker name="location" />
-                    <FormLabel label="Preferred Date & Time" style={{ marginTop: 30 }} />
+                    <FormLabel label="Donation Pickup Location" />
+                    <AddressPicker
+                        name="location"
+                    />
+                    <FormLabel label="Which day works best?" style={{ marginTop: 30 }} />
                     <FormDateTimePicker name_date="date" name_time="time" />
                     <FormLabel label="Select Wardrobe Package" style={{ marginTop: 30 }} />
                     <PackagePicker name="package" />
-                    <SubmitButton title="Submit Order" InfoComponent={<AlterationsDetails />} />
+                    <SubmitButton title="Confirm Donation" InfoComponent={<DonationsDetails />} />
                 </AppForm>
-
-
-
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -52,4 +51,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AlterationsForm;
+export default DonationsForm;

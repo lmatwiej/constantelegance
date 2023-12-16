@@ -12,12 +12,14 @@ import AccountScreen from './app/screens/AccountScreen';
 import ImageDemoScreen from './app/screens/ImageDemoScreen';
 import DashboardScreen from './app/screens/DashboardScreen';
 import AlterationsScreen from './app/screens/AlterationsScreen';
+import DonationsScreen from './app/screens/DonationsScreen';
+import LaundryScreen from './app/screens/LaundryScreen';
 
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <AlterationsScreen />
+      <LaundryScreen />
     </GestureHandlerRootView>
   );
 }

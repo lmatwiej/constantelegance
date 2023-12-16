@@ -15,7 +15,7 @@ function AppPicker({ icon, items, placeholder, selectedItem, onSelectItem, ...ot
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
                 <View style={styles.container}>
                     <View style={styles.icon}>{icon}</View>
-                    <AppText style={styles.text}>{selectedItem}</AppText>
+                    <AppText style={styles.text}>{selectedItem ? selectedItem : placeholder}</AppText>
                     <MaterialCommunityIcons name="chevron-down" size={20} color={colors.tertiary_dark} />
                 </View>
             </TouchableWithoutFeedback>
@@ -30,6 +30,7 @@ function AppPicker({ icon, items, placeholder, selectedItem, onSelectItem, ...ot
                         renderItem={({ item }) => <PickerItem
                             label={item.label}
                             value={item.value}
+                            image={item.image}
                             selectedItem={selectedItem}
                             onPress={() => {
                                 setModalVisible(false);

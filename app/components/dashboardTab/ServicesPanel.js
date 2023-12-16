@@ -18,7 +18,7 @@ const icons = [
 
 function ServicesPanel(props) {
     return (
-        <ScreenSection name="Services Panel">
+        <ScreenSection name="Request New Service">
             <View style={styles.row1}>
                 <PanelItem name="Alterations" icon={icons[0]} style={{ marginRight: 10 }} />
                 <PanelItem name="Cleaning" icon={icons[1]} style={{ marginLeft: 10 }} />

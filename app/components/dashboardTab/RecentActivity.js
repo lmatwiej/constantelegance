@@ -26,7 +26,7 @@ function RecentActivity(props) {
     const [activities, setActivities] = useState(initialActivities);
 
     return (
-        <ScreenSection name="Pending Services">
+        <ScreenSection name="View Active Orders">
             {(activities.length > 0) && <FlatList
                 data={activities}
                 keyExtractor={item => item.id.toString()}
@@ -34,7 +34,7 @@ function RecentActivity(props) {
                     <ListItem
                         title={item.title}
                         description={item.description}
-                        ImageComponent={<Icon name={item.icon} size={35} backgroundColor={colors.secondary} iconColor={colors.white} />}
+                        ImageComponent={<Icon name={item.icon} size={35} backgroundColor={colors.secondary_dark} iconColor={colors.white} />}
                         onPress={() => console.log("Tapped")}
                         chevron={true}
                     />}
