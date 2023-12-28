@@ -6,7 +6,7 @@ import AppButton from '../AppButton';
 
 
 function SubmitButton({ title, InfoComponent }) {
-    const { handleSubmit } = useFormikContext();
+    const { handleSubmit, errors, values } = useFormikContext();
     return (
         <View style={styles.container}>
             {InfoComponent}

@@ -6,6 +6,7 @@ export default {
     text: {
         fontSize: 18,
         color: colors.dark,
+        /*
         ...Platform.select({
             ios: {
                 fontFamily: 'Courier'
@@ -14,5 +15,6 @@ export default {
                 fontFamily: 'Roboto'
             }
         })
+        */
     }
 }

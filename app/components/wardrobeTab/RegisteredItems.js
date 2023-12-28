@@ -1,43 +1,17 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React, { useContext } from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
 
-import ListItem from '../ListItem';
-import ListItemSeparator from '../ListItemSeparator';
-import UpgradeButton from './UpgradeButton';
-
-// TODO: Connect to backend
-const initialWardrobe = [
-    {
-        id: 1,
-        title: "Grey Suit Package",
-        description: "5 total items",
-        image: require("../../assets/TailoringImage.jpeg")
-    },
-    {
-        id: 2,
-        title: "Navy Suit Package",
-        image: require("../../assets/TailoringImage.jpeg")
-    }
-]
+import CurrentPackage from './CurrentPackage';
+import AuthContext from '../../auth/context';
 
 function RegisteredItems(props) {
-    const [wardrobeItems, setWardrobeItems] = useState(initialWardrobe);
+    const { user } = useContext(AuthContext);
 
     return (
         <View style={styles.container}>
-            {(wardrobeItems.length > 0) && <FlatList
-                data={wardrobeItems}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item }) =>
-                    <ListItem
-                        title={item.title}
-                        description={item.description}
-                        image={item.image}
-                        onPress={() => console.log("Tapped")}
-                        chevron={true}
-                    />}
-            />}
-            <UpgradeButton title="Upgrade" />
+            <ScrollView showsVerticalScrollIndicator={false}>
+                {user.packages.map((item) => <CurrentPackage packageItem={item} key={item.type} />)}
+            </ScrollView>
         </View>
     );
 }

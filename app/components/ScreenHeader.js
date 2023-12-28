@@ -8,7 +8,7 @@ import colors from '../config/colors';
 function ScreenHeader({ name, IconComponentPanel = null }) {
     return (
         <View style={styles.headerContainer}>
-            <AppText style={styles.headerText}>{name}</AppText>
+            {name && <AppText style={styles.headerText}>{name}</AppText>}
             {IconComponentPanel}
         </View>
     );

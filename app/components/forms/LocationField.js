@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
 import { View, StyleSheet, TextInput } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+// import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 function LocationField({ name, ...otherProps }) {
     const { setFieldTouched, handleChange, errors, touched } = useFormikContext();
