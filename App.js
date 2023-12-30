@@ -6,41 +6,63 @@ import navigationTheme from './app/navigation/navigationTheme';
 import AuthContext from './app/auth/context';
 
 const user_variable = {
-  "_id": "658c58e04427f69eb35e39d6",
-  "name": "Tadeusz Matwiejczyk",
-  "password": "password2",
-  "contact": {
-    "email": "tmatwiejczyk@gmail.com",
-    "mobile": "9732706811"
+  _id: "658c58e04427f69eb35e39d6",
+  name: "Tadeusz Matwiejczyk",
+  password: "password2",
+  contact: {
+    email: "tmatwiejczyk@gmail.com",
+    mobile: "(973) 270-6811"
   },
-  "locations": [
+  home: {
+    address: "4 Timothy Ct",
+    city: "Morristown",
+    state: "NJ",
+    zip: "07960"
+  },
+  other_locations: [
     {
-      "label": "Home",
-      "address": "4 Timothy Ct",
-      "city": "Morristown",
-      "state": "NJ",
-      "zip": "07960"
+      label: "Work",
+      address: "5 Timothy Ct",
+      city: "Morris Plains",
+      state: "NY",
+      zip: "07961"
     }
   ],
   packages: [
     {
-      "type": 0,
-      "tailoring_count": 2,
-      "cleaning_count": 2
+      type: 0,
+      tailoring_count: 2,
+      cleaning_count: 2
     }
   ],
-  "orders": [
+  orders: [
     {
-      "type": "Tailoring",
-      "packageId": 0,
-      "location": "Home",
-      "created_date": "12/27/2023",
-      "pickup_date": "12/31/2023",
-      "pickup_time": "11:00am",
-      "service_rep": "To Be Assigned",
-      "service_rep_mobile": "9732706811"
-    }
-  ]
+      service: "Alterations",
+      package: 0,
+      status: "Delivery",
+      location: "Home",
+      date: "12/31/2023",
+      time: "11:00am",
+      service_rep: "To Be Assigned",
+      service_rep_mobile: "(973) 270-6811"
+    },
+    {
+      service: "Cleaning",
+      package: 1,
+      status: "Pickup",
+      location: "Home",
+      date: "12/31/2023",
+      time: "11:00am",
+      service_rep: "To Be Assigned",
+      service_rep_mobile: "(973) 270-6811"
+    },
+  ],
+  eligibility: {
+    Alterations: false,
+    Cleaning: false,
+    Donations: true,
+    Exchanges: true
+  }
 }
 
 export default function App() {
@@ -54,6 +76,3 @@ export default function App() {
     </AuthContext.Provider>
   );
 }
-
-// {user ? <AppNavigator /> : <AuthNavigator />}
-// { "email": "lukaszjmat@gmail.com", "iat": 1703264622, "name": "Lukasz Matwiejczyk", "userId": 1 }

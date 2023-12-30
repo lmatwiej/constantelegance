@@ -21,11 +21,12 @@ function UpdateContactScreen({ navigation }) {
 
     const handleSubmit = ({ email, mobile }) => {
         // Update database
-        updateContact(user._id.toString(), email, mobile);
+        const mobile_string = "(" + mobile.substring(0, 3) + ") " + mobile.substring(3, 6) + "-" + mobile.substring(6)
+        updateContact(user._id.toString(), email, mobile_string);
         if (error) console.log(error);
 
         // Update user context
-        setUser({ ...user, "contact": { email, mobile } })
+        setUser({ ...user, "contact": { email, mobile: mobile_string } })
 
         navigation.navigate("Account", { screen: 'Account Screen' })
     }

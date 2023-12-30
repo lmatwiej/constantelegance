@@ -37,7 +37,7 @@ function AccountScreen({ navigation }) {
                 </View>
             </View>
             <View style={styles.headerRow}>
-                <AppText style={styles.headerText}>Address</AppText>
+                <AppText style={styles.headerText}>Home Address</AppText>
                 <TouchableOpacity onPress={() =>
                     navigation.navigate("Account", { screen: 'Update Address' })
                 }>
@@ -45,8 +45,8 @@ function AccountScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.sectionContainer}>
-                <AppText style={[styles.bulletPoint, { paddingVertical: 8 }]}>{user.locations.address}</AppText>
-                <AppText style={[styles.bulletPoint, { paddingVertical: 8 }]}>{`${user.locations.city}, ${user.locations.state} ${user.locations.zip}`}</AppText>
+                <AppText style={[styles.bulletPoint, { paddingVertical: 8 }]}>{user.home.address}</AppText>
+                <AppText style={[styles.bulletPoint, { paddingVertical: 8 }]}>{`${user.home.city}, ${user.home.state} ${user.home.zip}`}</AppText>
             </View>
             <TouchableOpacity style={styles.buttonContainer} onPress={() => setUser(null)}>
                 <Text style={styles.buttonLogout}>Log Out</Text>

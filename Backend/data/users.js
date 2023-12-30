@@ -22,7 +22,29 @@ const getUserByEmail = async (email) => {
 
 
 const addUser = async (name, email, password) => {
-  const newAccount = { name, password, contact: { email, mobile: "" }, location: { address: "", city: "", state: "", zip: "" }, packages: [] }
+  const newAccount = {
+    name,
+    password,
+    contact: {
+      email,
+      mobile: ""
+    },
+    home: {
+      address: "",
+      city: "",
+      state: "",
+      zip: ""
+    },
+    other_locations: [],
+    packages: [],
+    orders: [],
+    eligibility: {
+      "Alterations": true,
+      "Cleaning": true,
+      "Donations": true,
+      "Exchanges": true
+    }
+  }
   const result = await mongoConnect("insertOne", newAccount)
 
   if (!result) return false
@@ -40,12 +62,21 @@ const updateContact = async (id, email, mobile) => {
   return result.acknowledged
 }
 
-
-const updateLocation = async (id, address, city, state, zip) => {
+const updateHomeLocation = async (id, address, city, state, zip) => {
   var o_id = new ObjectId(id)
   const query = { '_id': o_id }
-  const updates = { "location": { "address": address, "city": city, "state": state, "zip": zip } }
+  const updates = { "home": { address, city, state, zip } }
   const result = await mongoConnect("updateOne_set", query, updates)
+
+  if (!result) return false
+  return result.acknowledged
+}
+
+const addLocation = async (id, label, address, city, state, zip) => {
+  var o_id = new ObjectId(id)
+  const query = { '_id': o_id }
+  const updates = { "other_locations": { label, address, city, state, zip } }
+  const result = await mongoConnect("updateOne_push", query, updates)
 
   if (!result) return false
   return result.acknowledged
@@ -57,5 +88,6 @@ module.exports = {
   getUserById,
   addUser,
   updateContact,
-  updateLocation
+  updateHomeLocation,
+  addLocation
 };

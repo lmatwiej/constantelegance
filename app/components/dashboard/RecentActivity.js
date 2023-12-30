@@ -1,48 +1,47 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React, { useContext, useRef } from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import ScreenSection from '../ScreenSection';
 import colors from '../../config/colors';
 import AppText from '../AppText';
-import ListItem from '../ListItem';
-import ListItemSeparator from '../ListItemSeparator';
-import Icon from '../Icon';
+import ActiveOrderIcon from './ActiveOrderIcon';
+import AuthContext from '../../auth/context';
 
-// TODO: Connect to backend
-const initialActivities = [
-    {
-        id: 1,
-        title: "Donations",
-        icon: "account-settings"
-    },
-    {
-        id: 2,
-        title: "Alterations",
-        icon: "credit-card-settings"
-    }
-]
+const icons = {
+    "Alterations": <Entypo name='ruler' color={colors.secondary_dark} size={20} />,
+    "Cleaning": <MaterialIcons name='dry-cleaning' color={colors.white} size={30} />,
+    "Donations": <FontAwesome5 name='hand-holding-heart' color={colors.white} size={24} />,
+    "Exchanges": <FontAwesome name='exchange' color={colors.white} size={25} />
+}
 
 function RecentActivity(props) {
-    const [activities, setActivities] = useState(initialActivities);
+    const { user } = useContext(AuthContext);
+    const scrollView = useRef();
 
     return (
-        <ScreenSection name="View Active Orders">
-            {(activities.length > 0) && <FlatList
-                data={activities}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item }) =>
-                    <ListItem
-                        title={item.title}
-                        description={item.description}
-                        ImageComponent={<Icon name={item.icon} size={35} backgroundColor={colors.secondary_dark} iconColor={colors.white} />}
-                        onPress={() => console.log("Tapped")}
-                        chevron={true}
-                    />}
+        <>
+            <View style={styles.headerRow}>
+                <AppText style={styles.headerText}>Active Orders</AppText>
+            </View>
+            <View style={styles.sectionContainer}>
 
-                ItemSeparatorComponent={() => <ListItemSeparator />}
-            />}
-            {(activities.length === 0) && <AppText style={styles.placeholderText}>You have no pending activities.</AppText>}
-        </ScreenSection>
+                {(user.orders.length === 0)
+                    ? <AppText style={styles.placeholderText}>No pending orders testing testing.</AppText>
+                    : <ScrollView ref={scrollView}
+                        horizontal
+                        onContentSizeChange={() => scrollView.current.scrollToEnd()}
+                    >
+                        <View style={styles.scrollContainer}>
+                            {user.orders.map(order =>
+                                <ActiveOrderIcon key={order.service} order={order} />
+                            )}
+                        </View>
+                    </ScrollView>}
+            </View>
+        </>
     );
 }
 
@@ -52,8 +51,31 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "normal",
         color: colors.secondary,
+        padding: 20,
+        alignSelf: 'center'
+    },
+    headerRow: {
+        alignItems: 'center',
+        flexDirection: 'row',
         paddingHorizontal: 20,
-        paddingBottom: 15,
+        marginBottom: 10,
+        marginTop: 25
+    },
+    headerText: {
+        flex: 1,
+        fontSize: 20,
+        fontWeight: "600",
+        color: colors.primary_dark,
+    },
+    sectionContainer: {
+        backgroundColor: colors.white,
+        borderColor: colors.panel1,
+        borderWidth: 1,
+        paddingVertical: 20,
+        marginBottom: 20
+    },
+    scrollContainer: {
+        flexDirection: 'row',
     }
 })
 

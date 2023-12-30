@@ -14,10 +14,10 @@ const packageImages = {
 }
 
 const packageNames = {
-    0: "Suit Package",
-    1: "Shirt Package",
-    2: "Dresses & Feminine",
-    3: "Nice Dress Pants"
+    0: "Suits",
+    1: "Shirts",
+    2: "Dresses",
+    3: "Pants"
 }
 
 function CurrentPackage({ packageItem }) {

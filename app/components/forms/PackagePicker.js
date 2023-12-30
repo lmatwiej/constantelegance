@@ -34,7 +34,7 @@ function PackagePicker(props) {
 
     const handleSubmit = (item) => {
         setFieldValue("package", packageNames[item.type]);
-        setFieldValue("packageId", item.packageId);
+        setFieldValue("packageId", item.type);
     }
 
     return (
@@ -56,7 +56,7 @@ function PackagePicker(props) {
                         </TouchableOpacity>
                         <FlatList
                             data={user.packages}
-                            keyExtractor={item => item.packageId}
+                            keyExtractor={item => item.type}
                             renderItem={({ item }) => <PickerItem
                                 label={packageNames[item.type]}
                                 image={packageImages[item.type]}

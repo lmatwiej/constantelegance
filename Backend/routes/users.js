@@ -62,7 +62,7 @@ router.put("/location/:id", validateWith(locationSchema), async (req, res) => {
   const { address, city, state, zip } = req.body;
   const id = req.params.id;
 
-  const result = await data.updateLocation(id, address, city, state, zip);
+  const result = await data.updateHomeLocation(id, address, city, state, zip);
   if (!result) return res.status(500).send("Server Error");
   res.status(201).send("Success");
 });

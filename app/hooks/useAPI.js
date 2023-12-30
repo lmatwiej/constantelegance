@@ -13,7 +13,6 @@ export default useAPI = (apiFunc) => {
         if (!response.ok) return setError(true);
 
         setError(false);
-        console.log(response.data)
         setData(response.data);
     }
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons';
@@ -9,6 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import ScreenSection from '../ScreenSection';
 import PanelItem from './PanelItem';
 import colors from '../../config/colors';
+import AuthContext from '../../auth/context';
 
 const icons = [
     <Entypo name='ruler' color={colors.white} size={25} />,
@@ -17,17 +18,51 @@ const icons = [
     <FontAwesome name='exchange' color={colors.white} size={25} />
 ]
 
+const screens = {
+
+}
+
 function ServicesPanel(props) {
     const navigation = useNavigation();
+    const { user } = useContext(AuthContext);
+
+    const handleNavigate = (service) => {
+        if (user.eligibility[service])
+            navigation.navigate("Services", { screen: service })
+
+        else
+            Alert.alert(" Service Unavailable", "Each service can only be requested once at a time. An order for this service has already been placed.")
+    }
+
     return (
         <ScreenSection name="Request New Service">
             <View style={styles.row1}>
-                <PanelItem name="Alterations" icon={icons[0]} style={{ marginRight: 10 }} onPress={() => navigation.navigate("Services", { screen: 'Request Alterations' })} />
-                <PanelItem name="Cleaning" icon={icons[1]} style={{ marginLeft: 10 }} onPress={() => navigation.navigate("Services", { screen: 'Request Cleaning' })} />
+                <PanelItem
+                    name="Alterations"
+                    icon={icons[0]}
+                    style={{ marginRight: 10 }}
+                    onPress={() => handleNavigate("Alterations")}
+                />
+                <PanelItem
+                    name="Cleaning"
+                    icon={icons[1]}
+                    style={{ marginLeft: 10 }}
+                    onPress={() => handleNavigate("Cleaning")}
+                />
             </View>
             <View style={styles.row2}>
-                <PanelItem name="Donations" icon={icons[2]} style={{ marginRight: 10 }} onPress={() => navigation.navigate("Services", { screen: 'Make Donations' })} />
-                <PanelItem name="Exchanges" icon={icons[3]} style={{ marginLeft: 10 }} onPress={() => navigation.navigate("Services", { screen: 'Dashboard' })} />
+                <PanelItem
+                    name="Donations"
+                    icon={icons[2]}
+                    style={{ marginRight: 10 }}
+                    onPress={() => handleNavigate("Donations")}
+                />
+                <PanelItem
+                    name="Exchanges"
+                    icon={icons[3]}
+                    style={{ marginLeft: 10 }}
+                    onPress={() => handleNavigate("Exchanges")}
+                />
             </View>
 
         </ScreenSection>

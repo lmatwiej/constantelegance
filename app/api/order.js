@@ -1,6 +1,6 @@
 import client from './client';
 
-const createOrder = (id, date, time, type, location, packageId) => client.post('/orders/' + id, { date, time, type, location, packageId });
+const createOrder = (id, service, packageId, status, location, date, time) => client.post('/orders/' + id, { service, "package": packageId, status, location, date, time })
 
 export default {
     createOrder,

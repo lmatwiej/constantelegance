@@ -37,27 +37,32 @@ function LaundryForm(props) {
         // Process values
         const date = values.date.toLocaleDateString('en-US')
         const time = values.time.toLocaleTimeString("en-US")
-        const type = "Cleaning"
+        const service = "Cleaning"
         const location = values.location
         const packageId = values.packageId
+        const status = "Pickup"
 
         // Make API request
-        createOrder(user._id.toString(), date, time, type, location, packageId)
+        createOrder(user._id.toString(), service, packageId, status, location, date, time)
         if (error) return console.log(error);
 
         // Update context variables
         var new_orders = user.orders
         new_orders.push({
-            type,
-            packageId,
+            service,
+            package: packageId,
+            status,
             location,
-            created_date: new Date().toLocaleDateString('en-US'),
-            pickup_date: date,
-            pickup_time: time,
-            service_rep: data.rep,
+            date,
+            time,
+            service_rep: data.service_rep,
             service_rep_mobile: data.service_rep_mobile
         })
-        setUser({ ...user, "orders": new_orders })
+
+        var new_eligibility = user.eligibility
+        new_eligibility[service] = false
+
+        setUser({ ...user, "orders": new_orders, "eligibility": new_eligibility })
 
         navigation.navigate("Services", { screen: 'Dashboard' })
     }

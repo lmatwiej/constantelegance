@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import colors from '../../config/colors';
 import ScreenHeader from '../../components/ScreenHeader';
@@ -20,7 +21,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.primary_light
-    }
+    },
+
 })
 
 export default DashboardScreen;

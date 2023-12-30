@@ -28,7 +28,7 @@ function UpdateAddressScreen({ navigation }) {
         if (error) return console.log(error);
 
         // Update user context
-        setUser({ ...user, "locations": { address, city, state, zip } })
+        setUser({ ...user, "home": { address, city, state, zip } })
 
         navigation.navigate("Account", { screen: 'Account Screen' })
     }

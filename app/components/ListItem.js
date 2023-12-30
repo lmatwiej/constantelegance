@@ -5,19 +5,19 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import colors from '../config/colors';
 import AppText from './AppText';
 
-function ListItem({ title, description, image, ImageComponent, onPress, renderRightActions, chevron = false }) {
+function ListItem({ title, description, image = false, ImageComponent = false, onPress, renderRightActions, chevron = false }) {
     return (
         <TouchableHighlight underlayColor={colors.secondary_light} onPress={onPress}>
             <View style={styles.container}>
-                <View style={styles.leftSide}>
-                    {ImageComponent}
-                    {image && <Image style={styles.image} source={image} />}
-                    <View style={styles.detailsContainer}>
-                        <AppText style={styles.title} numberOfLines={1}>{title}</AppText>
-                        {description && <AppText style={styles.description} numberOfLines={1}>{description}</AppText>}
-                    </View>
+
+                {ImageComponent}
+                {image && <Image style={styles.image} source={image} />}
+                <View style={styles.detailsContainer}>
+                    <AppText style={styles.title} >{title}</AppText>
+                    {description && <AppText style={styles.description} numberOfLines={1}>{description}</AppText>}
                 </View>
-                {chevron && <MaterialCommunityIcons name="chevron-right" size={35} color={colors.tertiary_dark} />}
+
+                {chevron && <MaterialCommunityIcons name="chevron-right" size={35} color={colors.grey} />}
             </View>
         </TouchableHighlight>
     );
@@ -26,9 +26,10 @@ function ListItem({ title, description, image, ImageComponent, onPress, renderRi
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
+        width: '100%',
         paddingVertical: 15,
         paddingHorizontal: 20,
-        justifyContent: "space-between",
+        justifyContent: 'flex-start',
         alignItems: 'center'
     },
     description: {
@@ -37,8 +38,9 @@ const styles = StyleSheet.create({
         paddingVertical: 5
     },
     detailsContainer: {
+        width: '100%',
         marginLeft: 15,
-        justifyContent: "center"
+        justifyContent: "center",
     },
     image: {
         width: 75,
@@ -48,9 +50,6 @@ const styles = StyleSheet.create({
         overflow: "hidden",
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    leftSide: {
-        flexDirection: "row",
     },
     title: {
         fontSize: 18,

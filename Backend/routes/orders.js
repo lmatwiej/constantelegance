@@ -4,14 +4,14 @@ const data = require("../data/orders");
 
 // Create an order
 router.post("/:id", async (req, res) => {
-  const { date, time, type, location, packageId } = req.body;
+  const { service, package, status, location, date, time } = req.body;
   const id = req.params.id;
 
-  var rep = "To Be Assigned"
-  var rep_mobile = "To Be Assigned"
-  const result = await data.addOrder(id, date, time, type, location, packageId, rep, rep_mobile);
+  var service_rep = "To Be Assigned"
+  var service_rep_mobile = "To Be Assigned"
+  const result = await data.addOrder(id, service, package, status, location, date, time, service_rep, service_rep_mobile);
   if (!result) return res.status(500).send("Server Error");
-  res.status(201).send({ rep, rep_mobile });
+  res.status(201).send({ service_rep, service_rep_mobile });
 });
 
 module.exports = router;
