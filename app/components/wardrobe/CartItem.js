@@ -1,15 +1,35 @@
 import React from 'react';
 import { View, StyleSheet, Image, } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons'
 
+import wardrobe from '../../data/wardrobe';
 import colors from '../../config/colors';
 import AppText from '../AppText';
 
 const packages = {
-    0: { name: "Suits", price: "$30", priceInt: 30, image: require("../../assets/TailoringImage.jpeg") },
-    1: { name: "Shirts", price: "$15", priceInt: 15, image: require("../../assets/DressShirts.webp") },
-    2: { name: "Dresses", price: "$30", priceInt: 30, image: require("../../assets/TailoringImage.jpeg") },
-    3: { name: "Pants", price: "$15", priceInt: 15, image: require("../../assets/TailoringImage.jpeg") },
+    0: {
+        name: wardrobe.names[0],
+        price: wardrobe.prices_string[0],
+        priceInt: wardrobe.prices_integer[0],
+        image: require('../../assets/wardrobe/Suits.jpeg')
+    },
+    1: {
+        name: wardrobe.names[1],
+        price: wardrobe.prices_string[1],
+        priceInt: wardrobe.prices_integer[1],
+        image: require('../../assets/wardrobe/Shirts.webp')
+    },
+    2: {
+        name: wardrobe.names[2],
+        price: wardrobe.prices_string[2],
+        priceInt: wardrobe.prices_integer[2],
+        image: require('../../assets/wardrobe/Dresses.webp')
+    },
+    3: {
+        name: wardrobe.names[3],
+        price: wardrobe.prices_string[3],
+        priceInt: wardrobe.prices_integer[3],
+        image: require('../../assets/wardrobe/Pants.jpeg')
+    },
 }
 
 function CartItem({ type, quantity }) {

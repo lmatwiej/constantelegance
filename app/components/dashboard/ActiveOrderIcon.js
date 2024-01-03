@@ -7,7 +7,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import colors from '../../config/colors';
-import AppText from '../AppText';
 
 const icons = {
     "Alterations": <Entypo name='ruler' color={colors.white} size={20} />,
@@ -26,7 +25,6 @@ function ActiveOrderIcon({ order }) {
                     <View style={styles.iconContainer}>
                         {icons[order.service]}
                     </View>
-                    <AppText style={styles.labelText}>{order.service}</AppText>
                 </View>
             </TouchableWithoutFeedback>
         </>

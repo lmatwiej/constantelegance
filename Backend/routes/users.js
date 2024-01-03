@@ -8,7 +8,12 @@ const validateWith = require("../middleware/validation");
 const accountSchema = {
   name: Joi.string().required().min(2),
   email: Joi.string().email().required(),
-  password: Joi.string().required().min(5)
+  password: Joi.string().required().min(5),
+  mobile: Joi.string().required(),
+  address: Joi.string().required(),
+  city: Joi.string().required(),
+  state: Joi.string().required(),
+  zip: Joi.string().required()
 };
 
 const contactSchema = {
@@ -23,17 +28,25 @@ const locationSchema = {
   zip: Joi.string().required()
 };
 
+const newLocationSchema = {
+  label: Joi.string().required(),
+  address: Joi.string().required(),
+  city: Joi.string().required(),
+  state: Joi.string().required(),
+  zip: Joi.string().required()
+};
+
 
 // Create new user account with name, email, password. Other values left blank
 router.post("/", validateWith(accountSchema), async (req, res) => {
-  const { name, email, password } = req.body;
+  const { email, password, name, mobile, address, city, state, zip } = req.body;
   const existing_user = await data.getUserByEmail(email);
   if (existing_user)
     return res
       .status(400)
       .send({ error: "A user with the given email already exists." });
 
-  const result = await data.addUser(name, email, password);
+  const result = await data.addUser(email, password, name, mobile, address, city, state, zip);
 
   if (!result) return res.status(500).send("Server Error");
   res.status(201).send(result);
@@ -63,6 +76,17 @@ router.put("/location/:id", validateWith(locationSchema), async (req, res) => {
   const id = req.params.id;
 
   const result = await data.updateHomeLocation(id, address, city, state, zip);
+  if (!result) return res.status(500).send("Server Error");
+  res.status(201).send("Success");
+});
+
+
+// Add new location for a given user ID
+router.post("/location/:id", validateWith(newLocationSchema), async (req, res) => {
+  const { label, address, city, state, zip } = req.body;
+  const id = req.params.id;
+
+  const result = await data.addLocation(id, label, address, city, state, zip);
   if (!result) return res.status(500).send("Server Error");
   res.status(201).send("Success");
 });

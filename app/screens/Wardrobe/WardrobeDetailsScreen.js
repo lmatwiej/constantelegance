@@ -2,34 +2,28 @@ import React from 'react';
 import { View, StyleSheet, Image, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
+import wardrobe from '../../data/wardrobe';
 import AppText from '../../components/AppText';
 import ScreenHeader from '../../components/ScreenHeader';
 import colors from '../../config/colors';
-import CartIncrement from '../../components/wardrobeTab/CartIncrement';
-import { SuitPackage, ShirtPackage, DressPackage, PantPackage } from '../../components/wardrobeTab/InfoBoxes'
-import PackageStatus from '../../components/wardrobeTab/PackageStatus';
+import CartIncrement from '../../components/wardrobe/CartIncrement';
+import { SuitPackage, ShirtPackage, DressPackage, PantPackage } from '../../components/wardrobe/info_boxes'
+import PackageStatus from '../../components/wardrobe/PackageStatus';
 
 const BackIcon = <AntDesign name='back' color={colors.primary_dark} size={35} style={{ marginLeft: 5 }} />
 
+const packageNames = wardrobe.names;
 const packageImages = {
-    0: require('../../assets/TailoringImage.jpeg'),
-    1: require('../../assets/DressShirts.webp'),
-    2: require('../../assets/DressShirts.webp'),
-    3: require('../../assets/DressShirts.webp'),
+    0: require('../../assets/wardrobe/Suits.jpeg'),
+    1: require('../../assets/wardrobe/Shirts.webp'),
+    2: require('../../assets/wardrobe/Dresses.webp'),
+    3: require('../../assets/wardrobe/Pants.jpeg')
 }
-
 const descriptions = {
     0: <SuitPackage />,
     1: <ShirtPackage />,
     2: <DressPackage />,
     3: <PantPackage />
-}
-
-const packageNames = {
-    0: "Suits",
-    1: "Shirts",
-    2: "Dresses",
-    3: "Pants"
 }
 
 function WardrobeDetailsScreen({ closeModal, packageItem, cart = null, updateCount = null }) {

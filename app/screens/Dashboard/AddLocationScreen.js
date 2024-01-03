@@ -1,78 +1,70 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import * as Yup from 'yup';
 
-import authAPI from '../../api/auth';
 import AuthContext from '../../auth/context';
+import accountAPI from '../../api/account';
 import colors from '../../config/colors';
-import ScreenHeader from '../../components/ScreenHeader';
 import { AppForm, FormLabel, AppFormField, SubmitButton } from '../../components/forms';
 import StatePicker from '../../components/forms/StatePicker';
-const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 0
-const phoneRegex = /^(\d{10})$/
-const zipRegex = /^(\d{5})$/
-const validationSchema = Yup.object().shape({
-    name: Yup.string().required().label("Name"),
-    mobile: Yup.string().matches(phoneRegex, "Invalid phone").required("Phone is required"),
-    address: Yup.string().required().label("Address"),
-    city: Yup.string().required().label("City"),
-    state: Yup.string().required("Required").label("State"),
-    zip: Yup.string().matches(zipRegex, "Invalid zip").required("Required")
+import ErrorMessage from '../../components/forms/ErrorMessage';
 
+const zipRegex = /^(\d{5})$/
+const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 0
+const validationSchema = Yup.object().shape({
+    label: Yup.string().trim()
+        .test("Home", "Home is a restricted label", (input) => input !== "Home" && input !== "home")
+        .required("Required"),
+    address: Yup.string().trim().required().label("Address"),
+    city: Yup.string().trim().required().label("City"),
+    state: Yup.string().trim().required("Required").label("State"),
+    zip: Yup.string().trim().matches(zipRegex, "Invalid zip").required("Required")
 })
 
-function ContactInputScreen({ navigation, route }) {
+function AddLocationScreen({ navigation }) {
     const { user, setUser } = useContext(AuthContext);
+    const [labelError, setLabelError] = useState(false);
 
-    const handleSubmit = async ({ name, mobile, address, city, state, zip }) => {
-        const { email, password } = route.params;
+    const handleSubmit = async ({ label, address, city, state, zip }) => {
+        // Check label
+        const conflicting_labels = user.other_locations.filter((item) => item.label.toLowerCase() === label.toLowerCase().trim());
+        if (conflicting_labels.length > 0) return setLabelError(true);
 
-        // Create user
-        const mobile_string = "(" + mobile.substring(0, 3) + ") " + mobile.substring(3, 6) + "-" + mobile.substring(6)
-        const response = await authAPI.createAccount(email, password, name, mobile_string, address, city, state, zip)
+        // Update database
+        const result = await accountAPI.addAddress(user._id.toString(), label, address, city, state, zip);
+        if (!result.ok) return console.log(result);
 
 
-        if (!response.ok)
-            navigation.navigate("Welcome")
+        // Update user context
+        var other_locations = user.other_locations
+        other_locations.push({ label, address, city, state, zip })
+        setUser({ ...user, other_locations })
 
-        // Load the user
-        const account = await authAPI.loadAccount(response.data);
-        if (!account.ok)
-            navigation.navigate("Welcome")
-
-        setUser(account.data);
+        navigation.goBack();
 
     }
 
     return (
         <View style={styles.container}>
-            <ScreenHeader name="Contact Info" />
             <KeyboardAvoidingView
                 behavior="padding" keyboardVerticalOffset={keyboardVerticalOffset}
                 style={styles.inputContainer}>
                 <ScrollView keyboardShouldPersistTaps={'handled'} showsVerticalScrollIndicator={false}>
                     <AppForm
-                        initialValues={{ name: '', mobile: '', address: '', city: '', state: '', zip: '' }}
+                        initialValues={{ label: '', address: '', city: '', state: '', zip: '' }}
                         onSubmit={handleSubmit}
                         validationSchema={validationSchema}
                     >
-                        <FormLabel label="Full Name" />
+
+                        <FormLabel label="Location Label" style={{ marginTop: 30 }} />
                         <AppFormField
-                            name="name"
+                            name="label"
                             autoCapitalize="none"
                             autoCorrect={false}
-                            placeholder="Name"
+                            placeholder="Work, Gym, etc."
                         />
-                        <FormLabel label="Mobile Number" style={{ marginTop: 30 }} />
-                        <AppFormField
-                            name="mobile"
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            keyboardType="number-pad"
-                            placeholder="(xxx) xxx-xxxx"
-                            maxLength={10}
-                        />
-                        <FormLabel label="Home Location" style={{ marginTop: 30 }} />
+                        <ErrorMessage error={"This label has already been taken."} visible={labelError} />
+                        <FormLabel label="Address Details" style={{ marginTop: 30 }} />
                         <AppFormField
                             name="address"
                             autoCapitalize="none"
@@ -100,7 +92,7 @@ function ContactInputScreen({ navigation, route }) {
                                 />
                             </View>
                         </View>
-                        <SubmitButton title="Submit" />
+                        <SubmitButton title="Confirm Changes" />
                     </AppForm>
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -125,4 +117,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ContactInputScreen;
+export default AddLocationScreen;

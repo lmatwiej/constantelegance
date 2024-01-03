@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
+import AppLoading from 'expo-app-loading';
 import AuthNavigator from './app/navigation/AuthNavigator';
 import AppNavigator from './app/navigation/AppNavigator';
 import navigationTheme from './app/navigation/navigationTheme';
 import AuthContext from './app/auth/context';
+import authStorage from './app/auth/storage';
 
 const user_variable = {
   _id: "658c58e04427f69eb35e39d6",
@@ -66,7 +68,17 @@ const user_variable = {
 }
 
 export default function App() {
-  const [user, setUser] = useState(user_variable);
+  const [user, setUser] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  const restoreToken = async () => {
+    const account = await authStorage.getUser();
+    setUser(account);
+  }
+
+  if (!isReady)
+    return <AppLoading startAsync={restoreToken} onError={() => setUser(false)} onFinish={() => setIsReady(true)} />
+
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

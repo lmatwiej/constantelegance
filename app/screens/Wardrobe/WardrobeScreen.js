@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 import colors from '../../config/colors'
 import ScreenHeader from '../../components/ScreenHeader';
-import RegisteredItems from '../../components/wardrobeTab/RegisteredItems';
+import RegisteredItems from '../../components/wardrobe/RegisteredItems';
 
 function WardrobeScreen(props) {
     const navigation = useNavigation();

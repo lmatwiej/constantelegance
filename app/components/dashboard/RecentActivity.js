@@ -29,7 +29,7 @@ function RecentActivity(props) {
             <View style={styles.sectionContainer}>
 
                 {(user.orders.length === 0)
-                    ? <AppText style={styles.placeholderText}>No pending orders testing testing.</AppText>
+                    ? <AppText style={styles.placeholderText}>No pending orders.</AppText>
                     : <ScrollView ref={scrollView}
                         horizontal
                         onContentSizeChange={() => scrollView.current.scrollToEnd()}

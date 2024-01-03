@@ -4,12 +4,12 @@
     "slug": "ConstantElegance",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icon.png",
+    "icon": "./app/assets/favicon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./app/assets/splash.png",
+      "image": "./app/assets/CELogo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#491503"
     },
     "assetBundlePatterns": [
       "**/*"

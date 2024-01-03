@@ -2,26 +2,23 @@ import React, { useState } from 'react';
 import { View, Image, StyleSheet, TouchableHighlight, Modal } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
+import wardrobe from '../../data/wardrobe';
 import colors from '../../config/colors';
 import AppText from '../AppText';
 import WardrobeDetailsScreen from '../../screens/Wardrobe/WardrobeDetailsScreen';
 
-const packageImages = {
-    0: require('../../assets/TailoringImage.jpeg'),
-    1: require('../../assets/DressShirts.webp'),
-    2: require('../../assets/DressShirts.webp'),
-    3: require('../../assets/DressShirts.webp'),
-}
 
-const packageNames = {
-    0: "Suits",
-    1: "Shirts",
-    2: "Dresses",
-    3: "Pants"
-}
 
 function CurrentPackage({ packageItem }) {
     const [modalVisible, setModalVisible] = useState(false);
+    const packageNames = wardrobe.names;
+    const packageImages = {
+        0: require('../../assets/wardrobe/Suits.jpeg'),
+        1: require('../../assets/wardrobe/Shirts.webp'),
+        2: require('../../assets/wardrobe/Dresses.webp'),
+        3: require('../../assets/wardrobe/Pants.jpeg'),
+    };
+
     return (
         <>
             <TouchableHighlight underlayColor={colors.secondary_light} onPress={() => setModalVisible(true)}>

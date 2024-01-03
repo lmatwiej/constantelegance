@@ -21,19 +21,19 @@ const getUserByEmail = async (email) => {
 }
 
 
-const addUser = async (name, email, password) => {
+const addUser = async (email, password, name, mobile, address, city, state, zip) => {
   const newAccount = {
     name,
     password,
     contact: {
       email,
-      mobile: ""
+      mobile
     },
     home: {
-      address: "",
-      city: "",
-      state: "",
-      zip: ""
+      address,
+      city,
+      state,
+      zip
     },
     other_locations: [],
     packages: [],

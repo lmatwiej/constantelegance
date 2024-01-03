@@ -2,35 +2,36 @@ import React, { useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import wardrobe from '../../data/wardrobe';
 import colors from '../../config/colors';
 import AppButton from '../../components/AppButton';
 import AppText from '../../components/AppText';
-import Listing from '../../components/wardrobeTab/Listing';
+import Listing from '../../components/wardrobe/Listing';
 
 const packages = [
     {
         type: 0,
-        name: "Suits",
-        price: "$30",
-        image: require("../../assets/TailoringImage.jpeg")
+        name: wardrobe.names[0],
+        price: wardrobe.prices_string[0],
+        image: require('../../assets/wardrobe/Suits.jpeg')
     },
     {
         type: 1,
-        name: "Shirts",
-        price: "$15",
-        image: require("../../assets/DressShirts.webp")
+        name: wardrobe.names[1],
+        price: wardrobe.prices_string[1],
+        image: require('../../assets/wardrobe/Shirts.webp')
     },
     {
         type: 2,
-        name: "Dresses",
-        price: "$30",
-        image: require("../../assets/TailoringImage.jpeg")
+        name: wardrobe.names[2],
+        price: wardrobe.prices_string[2],
+        image: require('../../assets/wardrobe/Dresses.webp')
     },
     {
         type: 3,
-        name: "Pants",
-        price: "$15",
-        image: require("../../assets/TailoringImage.jpeg")
+        name: wardrobe.names[3],
+        price: wardrobe.prices_string[3],
+        image: require('../../assets/wardrobe/Pants.jpeg')
     }
 ]
 

@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import colors from '../../config/colors';
 import AppButton from '../../components/AppButton';
 import AppText from '../../components/AppText';
-import CartItem from '../../components/wardrobeTab/CartItem';
+import CartItem from '../../components/wardrobe/CartItem';
 
 function ViewCartScreen({ navigation, route }) {
     const { cart } = route.params;

@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, Modal, FlatList, Text } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, Modal, Text, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useFormikContext } from 'formik';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'
 
 import AppText from '../AppText';
 import colors from '../../config/colors';
@@ -17,6 +19,12 @@ function AddressPicker(props) {
     const [modalVisible, setModalVisible] = useState(false);
     const { setFieldValue, values, errors, touched } = useFormikContext();
     const { user } = useContext(AuthContext);
+    const navigation = useNavigation();
+
+    const handleNavigate = () => {
+        setModalVisible(false);
+        navigation.navigate("Services", { screen: 'New Location' });
+    }
 
     const handleSubmit = (item) => {
         setFieldValue("location", item.label);
@@ -41,10 +49,18 @@ function AddressPicker(props) {
                         <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
                             <Text style={styles.textButton}>Close</Text>
                         </TouchableOpacity>
-                        <FlatList
-                            data={user.locations}
-                            keyExtractor={item => item.label}
-                            renderItem={({ item }) => <PickerItem
+                        <ScrollView style={styles.scrollContainer}>
+                            <PickerItem
+                                label={"Home"}
+                                value={user.home.address + ", " + user.home.city + ", " + user.home.state + " " + user.home.zip}
+                                selectedItem={values["location"]}
+                                onPress={() => {
+                                    setModalVisible(false);
+                                    handleSubmit({ label: "Home" });
+                                }}
+                            />
+                            {user.other_locations.map((item, index) => <PickerItem
+                                key={index}
                                 label={item.label}
                                 value={item.address + ", " + item.city + ", " + item.state + " " + item.zip}
                                 selectedItem={values["location"]}
@@ -52,8 +68,17 @@ function AddressPicker(props) {
                                     setModalVisible(false);
                                     handleSubmit(item);
                                 }}
-                            />}
-                        />
+                            />)}
+                            <TouchableWithoutFeedback onPress={handleNavigate}>
+                                <View style={styles.newLocationContainer}>
+                                    <View style={styles.repImage}>
+                                        <Ionicons name="ios-add" size={50} color={colors.white} />
+                                    </View>
+                                    <AppText style={styles.label}>Add New Location</AppText>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </ScrollView>
+
                     </Screen>
                 </Modal>
             </>
@@ -97,6 +122,36 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 10
+    },
+    newLocationContainer: {
+        flexDirection: "row",
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        backgroundColor: colors.white,
+        borderColor: colors.panel1,
+        borderWidth: 1,
+        alignItems: 'center'
+    },
+    repImage: {
+        width: 50,
+        height: 50,
+        backgroundColor: colors.panel1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        marginRight: 15,
+    },
+    label: {
+        flex: 1,
+        fontSize: 18,
+        fontWeight: "500",
+        color: colors.secondary_dark,
+        marginLeft: 15,
+        paddingVertical: 5
+    },
+    scrollContainer: {
+        borderTopColor: colors.panel1,
+        borderTopWidth: 1,
     }
 })
 

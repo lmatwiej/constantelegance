@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 import colors from '../../config/colors';
-import DonationsForm from '../../components/requestTab/DonationsForm';
+import DonationsForm from '../../components/service_forms/DonationsForm';
 
 const BackIcon = <AntDesign name='back' color={colors.primary_dark} size={35} style={{ marginLeft: 5 }} />
 

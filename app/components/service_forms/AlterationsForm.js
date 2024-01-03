@@ -5,10 +5,9 @@ import * as Yup from 'yup';
 
 import { AppForm, SubmitButton, FormLabel } from '../forms';
 import AddressPicker from '../forms/AddressPicker';
-import PackagePicker from '../forms/PackagePicker';
 import FormDateTimePicker from '../forms/FormDateTimePicker';
-import ExchangesDetails from '../forms/ExchangesDetails';
-import useAPI from '../../hooks/useAPI';
+import AlterationsDetails from './AlterationsDetails';
+import PackagePicker from '../forms/PackagePicker';
 import orderAPI from '../../api/order';
 import AuthContext from '../../auth/context';
 
@@ -26,8 +25,7 @@ const initialFormValues = {
     packageId: null
 }
 
-function ExchangesForm(props) {
-    const { data, error, request: createOrder } = useAPI(orderAPI.createOrder)
+function AlterationsForm(props) {
     const { user, setUser } = useContext(AuthContext)
     const navigation = useNavigation();
 
@@ -35,21 +33,18 @@ function ExchangesForm(props) {
         // Process values
         const date = values.date.toLocaleDateString('en-US')
         const time = values.time.toLocaleTimeString("en-US")
-        const service = "Exchanges"
+        const service = "Alterations"
         const location = values.location
         const packageId = values.packageId
         const status = "Pickup"
 
         // Make API request
-        console.log({ service, "package": packageId, status, location, date, time })
-        await createOrder(user._id.toString(), service, packageId, status, location, date, time)
-        if (error) {
+        const response = await orderAPI.createOrder(user._id.toString(), service, packageId, status, location, date, time)
+
+        if (!response.ok) {
             console.log("Error: ", error);
             navigation.navigate("Services", { screen: 'Dashboard' })
-        }
-
-        // Update context variables
-        if (data.length > 0) {
+        } else {
             var new_orders = user.orders
             new_orders.push({
                 service,
@@ -58,8 +53,8 @@ function ExchangesForm(props) {
                 location,
                 date,
                 time,
-                service_rep: data.service_rep,
-                service_rep_mobile: data.service_rep_mobile
+                service_rep: response.data.service_rep,
+                service_rep_mobile: response.data.service_rep_mobile
             })
             var new_eligibility = user.eligibility
             new_eligibility[service] = false
@@ -79,14 +74,17 @@ function ExchangesForm(props) {
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
                 >
-                    <FormLabel label="Exchange Location" />
+                    <FormLabel label="Clothing Pickup Location" />
                     <AddressPicker />
-                    <FormLabel label="Which day works best?" style={{ marginTop: 30 }} />
+                    <FormLabel label="Preferred Date & Time" style={{ marginTop: 30 }} />
                     <FormDateTimePicker name_date="date" name_time="time" />
                     <FormLabel label="Select Wardrobe Package" style={{ marginTop: 30 }} />
                     <PackagePicker />
-                    <SubmitButton title="Confirm Exchange" InfoComponent={<ExchangesDetails />} />
+                    <SubmitButton title="Submit Order" InfoComponent={<AlterationsDetails />} />
                 </AppForm>
+
+
+
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -100,4 +98,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ExchangesForm;
+export default AlterationsForm;

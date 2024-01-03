@@ -6,31 +6,32 @@ import authAPI from '../../api/auth';
 import AuthContext from '../../auth/context';
 import colors from '../../config/colors';
 import ScreenHeader from '../../components/ScreenHeader';
-import { AppForm, FormLabel, AppFormField, SubmitButton } from '../../components/forms';
 import StatePicker from '../../components/forms/StatePicker';
+import { AppForm, FormLabel, AppFormField, SubmitButton } from '../../components/forms';
 const keyboardVerticalOffset = Platform.OS === 'ios' ? 0 : 0
 const phoneRegex = /^(\d{10})$/
 const zipRegex = /^(\d{5})$/
 const validationSchema = Yup.object().shape({
     name: Yup.string().required().label("Name"),
+    password: Yup.string().required().min(5).label("Password"),
+    confirmPassword: Yup.string().required("Must confirm password").oneOf([Yup.ref('password')], 'Passwords must match'),
+    email: Yup.string().email().required().label("Email"),
     mobile: Yup.string().matches(phoneRegex, "Invalid phone").required("Phone is required"),
     address: Yup.string().required().label("Address"),
     city: Yup.string().required().label("City"),
     state: Yup.string().required("Required").label("State"),
     zip: Yup.string().matches(zipRegex, "Invalid zip").required("Required")
-
 })
 
-function ContactInputScreen({ navigation, route }) {
+
+function RegistrationScreen({ navigation }) {
     const { user, setUser } = useContext(AuthContext);
 
-    const handleSubmit = async ({ name, mobile, address, city, state, zip }) => {
-        const { email, password } = route.params;
-
+    const handleSubmit = async ({ email, password, name, mobile, address, city, state, zip }) => {
         // Create user
         const mobile_string = "(" + mobile.substring(0, 3) + ") " + mobile.substring(3, 6) + "-" + mobile.substring(6)
+        console.log({ email, password, name, mobile, address, city, state, zip })
         const response = await authAPI.createAccount(email, password, name, mobile_string, address, city, state, zip)
-
 
         if (!response.ok)
             navigation.navigate("Welcome")
@@ -41,36 +42,62 @@ function ContactInputScreen({ navigation, route }) {
             navigation.navigate("Welcome")
 
         setUser(account.data);
-
     }
 
     return (
         <View style={styles.container}>
-            <ScreenHeader name="Contact Info" />
+            <ScreenHeader name="Register Account" />
             <KeyboardAvoidingView
                 behavior="padding" keyboardVerticalOffset={keyboardVerticalOffset}
                 style={styles.inputContainer}>
                 <ScrollView keyboardShouldPersistTaps={'handled'} showsVerticalScrollIndicator={false}>
                     <AppForm
-                        initialValues={{ name: '', mobile: '', address: '', city: '', state: '', zip: '' }}
+                        initialValues={{ email: '', password: '', confirmPassword: '', name: '', mobile: '', address: '', city: '', state: '', zip: '' }}
                         onSubmit={handleSubmit}
                         validationSchema={validationSchema}
                     >
-                        <FormLabel label="Full Name" />
+                        <FormLabel label="Name & Password" />
                         <AppFormField
                             name="name"
+                            icon="face-man"
                             autoCapitalize="none"
                             autoCorrect={false}
                             placeholder="Name"
                         />
-                        <FormLabel label="Mobile Number" style={{ marginTop: 30 }} />
+                        <AppFormField
+                            name="password"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            icon="lock"
+                            placeholder="Password"
+                            secureTextEntry
+                        />
+                        <AppFormField
+                            name="confirmPassword"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            icon="lock"
+                            placeholder="Confirm Password"
+                            secureTextEntry
+                        />
+                        <FormLabel label="Contact Info" style={{ marginTop: 30 }} />
                         <AppFormField
                             name="mobile"
+                            icon="cellphone"
                             autoCapitalize="none"
                             autoCorrect={false}
                             keyboardType="number-pad"
                             placeholder="(xxx) xxx-xxxx"
                             maxLength={10}
+                        />
+                        <AppFormField
+                            name="email"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            icon="email"
+                            keyboardType="email-address"
+                            placeholder="Email"
+                            textContentType="emailAddress"
                         />
                         <FormLabel label="Home Location" style={{ marginTop: 30 }} />
                         <AppFormField
@@ -100,9 +127,11 @@ function ContactInputScreen({ navigation, route }) {
                                 />
                             </View>
                         </View>
-                        <SubmitButton title="Submit" />
+
+                        <SubmitButton title="Create Account" />
                     </AppForm>
                 </ScrollView>
+
             </KeyboardAvoidingView>
         </View>
     );
@@ -125,4 +154,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ContactInputScreen;
+export default RegistrationScreen;

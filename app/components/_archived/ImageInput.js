@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, TouchableWithoutFeedback, Alert } from 'react-
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker';
 
-import colors from '../config/colors';
+import colors from '../../config/colors';
 
 function ImageInput({ imageUri, onChangeImage }) {
 

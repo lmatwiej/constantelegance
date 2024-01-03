@@ -7,8 +7,7 @@ import { AppForm, SubmitButton, FormLabel } from '../forms';
 import AddressPicker from '../forms/AddressPicker';
 import PackagePicker from '../forms/PackagePicker';
 import FormDateTimePicker from '../forms/FormDateTimePicker';
-import DonationsDetails from '../forms/DonationsDetails';
-import useAPI from '../../hooks/useAPI';
+import DonationsDetails from './DonationsDetails';
 import orderAPI from '../../api/order';
 import AuthContext from '../../auth/context';
 
@@ -27,11 +26,10 @@ const initialFormValues = {
 }
 
 function DonationsForm(props) {
-    const { data, error, request: createOrder } = useAPI(orderAPI.createOrder)
     const { user, setUser } = useContext(AuthContext)
     const navigation = useNavigation();
 
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
         // Process values
         const date = values.date.toLocaleDateString('en-US')
         const time = values.time.toLocaleTimeString("en-US")
@@ -41,28 +39,28 @@ function DonationsForm(props) {
         const status = "Pickup"
 
         // Make API request
-        createOrder(user._id.toString(), service, packageId, status, location, date, time)
-        if (error) return console.log(error);
+        const response = await orderAPI.createOrder(user._id.toString(), service, packageId, status, location, date, time)
 
-        // Update context variables
-        var new_orders = user.orders
-        new_orders.push({
-            service,
-            package: packageId,
-            status,
-            location,
-            date,
-            time,
-            service_rep: data.service_rep,
-            service_rep_mobile: data.service_rep_mobile
-        })
-
-        var new_eligibility = user.eligibility
-        new_eligibility[service] = false
-
-        setUser({ ...user, "orders": new_orders, "eligibility": new_eligibility })
-
-        navigation.navigate("Services", { screen: 'Dashboard' })
+        if (!response.ok) {
+            console.log("Error: ", error);
+            navigation.navigate("Services", { screen: 'Dashboard' })
+        } else {
+            var new_orders = user.orders
+            new_orders.push({
+                service,
+                package: packageId,
+                status,
+                location,
+                date,
+                time,
+                service_rep: response.data.service_rep,
+                service_rep_mobile: response.data.service_rep_mobile
+            })
+            var new_eligibility = user.eligibility
+            new_eligibility[service] = false
+            setUser({ ...user, "orders": new_orders, "eligibility": new_eligibility })
+            navigation.navigate("Services", { screen: 'Dashboard' })
+        }
     }
 
     return (

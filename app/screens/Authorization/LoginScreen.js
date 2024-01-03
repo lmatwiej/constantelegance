@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import "core-js/stable/atob";
 
 import authAPI from '../../api/auth';
+import authStorage from '../../auth/storage';
 import { ErrorMesssage, AppFormField, AppForm, SubmitButton } from '../../components/forms';
 import colors from '../../config/colors';
 import AuthContext from '../../auth/context';
@@ -28,6 +29,7 @@ function LoginScreen(props) {
         if (!account.ok) return setLoginError(true);
 
         authContext.setUser(account.data);
+        authStorage.storeToken(account.data._id.toString());
     }
 
     return (

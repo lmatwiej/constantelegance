@@ -6,6 +6,7 @@ import AlterationsOrderScreen from '../screens/Dashboard/AlterationsOrderScreen'
 import CleaningOrderScreen from '../screens/Dashboard/CleaningOrderScreen';
 import DonationsOrderScreen from '../screens/Dashboard/DonationsOrderScreen';
 import ExchangesOrderScreen from '../screens/Dashboard/ExchangesOrderScreen';
+import AddLocationScreen from '../screens/Dashboard/AddLocationScreen';
 import ViewOrderScreen from '../screens/Dashboard/ViewOrderScreen';
 
 const Stack = createNativeStackNavigator();
@@ -17,6 +18,7 @@ const DashboardNavigator = () => (
         <Stack.Screen name="Cleaning" component={CleaningOrderScreen} />
         <Stack.Screen name="Donations" component={DonationsOrderScreen} />
         <Stack.Screen name="Exchanges" component={ExchangesOrderScreen} />
+        <Stack.Screen name="New Location" component={AddLocationScreen} />
         <Stack.Screen name="View Order" component={ViewOrderScreen} />
     </Stack.Navigator>
 );

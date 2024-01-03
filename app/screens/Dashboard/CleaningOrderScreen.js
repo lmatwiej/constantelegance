@@ -3,8 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 import colors from '../../config/colors';
-import ScreenHeader from '../../components/ScreenHeader';
-import LaundryForm from '../../components/requestTab/LaundryForm';
+import LaundryForm from '../../components/service_forms/LaundryForm';
 
 const BackIcon = <AntDesign name='back' color={colors.primary_dark} size={35} style={{ marginLeft: 5 }} />
 

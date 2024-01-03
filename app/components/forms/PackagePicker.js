@@ -3,6 +3,7 @@ import { useFormikContext } from 'formik';
 import { View, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, Modal, FlatList, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import wardrobe from '../../data/wardrobe';
 import PickerItem from '../PickerItem';
 import Screen from '../Screen';
 import AppText from '../AppText';
@@ -11,18 +12,13 @@ import colors from '../../config/colors';
 import defaultStyles from '../../config/styles';
 import AuthContext from '../../auth/context';
 
-const packageNames = {
-    0: "Full Suit Bundle",
-    1: "Collared Shirt Set",
-    2: "Dresses & Feminine",
-    3: "Stylish Pants & Chinos"
-}
+const packageNames = wardrobe.names;
 
 const packageImages = {
-    0: require("../../assets/TailoringImage.jpeg"),
-    1: require("../../assets/DressShirts.webp"),
-    2: require("../../assets/DressShirts.webp"),
-    3: require("../../assets/DressShirts.webp")
+    0: require("../../assets/wardrobe/Suits.jpeg"),
+    1: require("../../assets/wardrobe/Shirts.webp"),
+    2: require("../../assets/wardrobe/Dresses.webp"),
+    3: require("../../assets/wardrobe/Pants.jpeg")
 }
 
 const DresserIcon = <MaterialCommunityIcons name="dresser-outline" size={20} color={colors.tertiary_dark} />
