@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 async function mongoConnect(queryFunction, queryArgument, updateDocument = null) {
 
     // Establish connection
-    const uri = "mongodb+srv://lukaszjmat:D7Miqtyb2jXB5E6L@cluster0.w34447n.mongodb.net/?retryWrites=true&w=majority";
+    const uri = "INPUT_URI_HERE";
     const mongoClient = new MongoClient(uri);
 
     var result = false; // Result variable
